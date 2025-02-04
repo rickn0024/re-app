@@ -19,7 +19,7 @@ export default async function PropertyPage(props: {
     <>
       <PropertyHeaderImage property={property} />
       <section>
-        <div className="container-xl lg:container m-auto py-6 px-6">
+        <div className=" m-auto py-6 ">
           <Button asChild variant="outline" className="">
             <Link href="/properties" className="flex items-center">
               <ArrowLeft className="mr-2 w-4 h-4" /> Back to Properties
@@ -28,7 +28,7 @@ export default async function PropertyPage(props: {
         </div>
       </section>
       <section className="">
-        <div className="container m-auto py-10 px-6">
+        <div className=" m-auto py-10 ">
           <div className="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
             <div>
               <h2 className="h3-bold mb-4">Property Details</h2>

@@ -34,8 +34,8 @@ export default function PropertyHeaderImage({
     <Gallery>
       <section>
         <div className="container-xl m-auto">
-          <div className="container m-auto relative">
-            <div className="container m-auto relative">
+          <div className=" m-auto relative">
+            <div className=" m-auto relative">
               <span className="absolute top-6 left-6 bg-brandBlue text-white px-4 py-2 rounded-md text-sm shadow">
                 {status}
               </span>

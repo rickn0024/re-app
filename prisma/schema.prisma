@@ -16,6 +16,7 @@ datasource db {
 
 model Property {
   id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  listing_agent          String
   slug                   String   @unique(map: "property_slug_idx")
   headline               String
   type                   String
@@ -37,7 +38,6 @@ model Property {
   commission_description String?
   images                 String[]
   is_featured            Boolean  @default(false)
-  listing_agent          String
   created_at             DateTime @default(now()) @db.Timestamp(6)
   updated_at             DateTime @updatedAt
 }

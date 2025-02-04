@@ -8,81 +8,58 @@ const decimalNumbers = z
     'Must have exactly 2 decimal places',
   );
 
-// Schema for the `price` field (JSON)
-export const PriceSchema = z
-  .object({
-    list_price: z.number().positive().optional(),
-    lease_price: z.number().positive().optional(),
-  })
-  .nullable(); // Allow the entire object to be null
+const CoordinatesSchema = z.object({
+  latitude: z.number(),
+  longitude: z.number(),
+});
 
-// Schema for the `location` field (JSON)
-export const LocationSchema = z
-  .object({
-    street: z.string().min(1),
-    city: z.string().min(1),
-    state: z.string().min(1),
-    zipcode: z.string().min(1),
-    neighboorhood: z.string().optional(), // Optional field
-    coordinates: z.object({
-      latitude: z.number().optional(),
-      longitude: z.number().optional(),
-    }),
-  })
-  .nullable(); // Allow the entire object to be null
+const LocationSchema = z.object({
+  street: z.string(),
+  city: z.string(),
+  state: z.string(),
+  zipcode: z.string(),
+  neighborhood: z.string(),
+  coordinates: CoordinatesSchema,
+});
 
-// Schema for the `lot_size` field (JSON)
-export const LotSizeSchema = z
-  .object({
-    square_feet: z.number().positive().optional(), // Ensure this is a number
-    acre: z.number().positive().optional(), // Ensure this is a number
-  })
-  .nullable(); // Allow the entire object to be null
+const LotSizeSchema = z.object({
+  square_feet: z.number().nullable(),
+  acre: z.number().nullable(),
+});
 
-// Schema for the `commission` field (JSON)
-const CommissionSchema = z
-  .object({
-    percentage: z.number().positive().optional(),
-    fixed: z.number().positive().optional(),
-  })
-  .nullable()
-  .optional()
-  .transform(val => val ?? undefined); // Handle null and transform to undefined
+const PriceSchema = z.object({
+  list_price: z.number().nullable(),
+  lease_price: z.number().nullable(),
+});
 
-// Schema for inserting properties
+const CommissionSchema = z.object({
+  percentage: z.number().nullable(),
+  flat_fee: z.number().nullable(),
+});
+
 export const insertPropertySchema = z.object({
-  slug: z.string().min(1), // Unique slug for the property
-  headline: z.string().min(3, 'Headline must have at least 3 characters'), // Headline for the property
-  type: z.string().min(1, 'Must select property type'), // Property type (e.g., "House", "Apartment")
-  mls_id: z
-    .string()
-    .nullable()
-    .optional()
-    .transform(val => val ?? undefined), // Handle null and transform to undefined  status: z.string().min(1, 'Must select property status'), // Listing status (e.g., "active", "sold")
-  description: z.string().min(10, 'Description must be at least 10 characters'), // Property description
-  price: PriceSchema, // Price object (amount and currency)
-  location: LocationSchema, // Location object (address, city, state, etc.)
-  beds: z.coerce.number().int().positive(), // Number of bedrooms
-  baths: decimalNumbers, // Number of bathrooms
-  square_feet: z.coerce.number().int().positive(), // Square footage
-  lot_size_units: z.string().min(1, 'Must select lot size unit of measurement'), // Lot size units (e.g., "acres", "sqft")
-  lot_size: LotSizeSchema, // Lot size object (value and unit)
-  year_built: z.coerce.number().int().positive(), // Year the property was built
-  amenities: z.array(z.string().min(1, 'Must select at least 1 ammenity')), // Array of amenities
-  commission_type: z
-    .string()
-    .nullable()
-    .optional()
-    .transform(val => val ?? undefined), // Handle null and transform to undefined
-  commission: CommissionSchema, // Use the updated CommissionSchema
-  commission_description: z
-    .string()
-    .nullable()
-    .optional()
-    .transform(val => val ?? undefined),
-  is_featured: z.boolean().default(false), // Whether the property is featured
-  listing_agent: z
-    .string()
-    .min(1, 'Property must be attached to a listing agent'), // ID of the listing agent
-  images: z.array(z.string().min(1)), // Array of image URLs
+  listing_agent: z.string(),
+  headline: z.string(),
+  slug: z.string(),
+  type: z.string(),
+  mls_id: z.string(),
+  status: z.string(),
+  listing_date: z.string().datetime(),
+  description: z.string(),
+  location: LocationSchema,
+  beds: z.number(),
+  baths: decimalNumbers,
+  square_feet: z.number(),
+  lot_size_units: z.string(),
+  lot_size: LotSizeSchema,
+  year_built: z.number(),
+  amenities: z.array(z.string()),
+  price: PriceSchema,
+  commission_type: z.string(),
+  commission: CommissionSchema,
+  commission_description: z.string(),
+  images: z.array(z.string()),
+  is_featured: z.boolean(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
 });

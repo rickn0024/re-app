@@ -13,7 +13,7 @@ export default function PropertyCard({ property }: { property: Property }) {
     property.type = 'Condo';
   }
   return (
-    <Link href={`/view-property/${property.slug}`}>
+    <Link href={`/property/${property.slug}`}>
       <Card className="hover:shadow-lg hover:border cursor-pointer shadow-md rounded-lg">
         <CardHeader className="relative p-0">
           <Image

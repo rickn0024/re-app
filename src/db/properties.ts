@@ -27,6 +27,7 @@ const samplePropertyData = {
       lot_size_units: 'square_feet',
       lot_size: {
         square_feet: 5500,
+        acre: null,
       },
       year_built: 1990,
       amenities: [
@@ -47,10 +48,12 @@ const samplePropertyData = {
       ],
       price: {
         list_price: 100100,
+        lease_price: null,
       },
       commission_type: 'percentage',
       commission: {
         percentage: 2.5,
+        flat_fee: null,
       },
       commission_description: 'Seller is offering 2.5% commission.',
       images: [
@@ -89,6 +92,7 @@ const samplePropertyData = {
       lot_size_units: 'square_feet',
       lot_size: {
         square_feet: 7500,
+        acre: null,
       },
       year_built: 2005,
       amenities: [
@@ -102,10 +106,12 @@ const samplePropertyData = {
       ],
       price: {
         list_price: 875000,
+        lease_price: null,
       },
       commission_type: 'percentage',
       commission: {
         percentage: 2.5,
+        flat_fee: null,
       },
       commission_description: 'Buyer’s agent receives 2.5% commission.',
       images: [
@@ -144,6 +150,7 @@ const samplePropertyData = {
       lot_size_units: 'square_feet',
       lot_size: {
         square_feet: 2000,
+        acre: null,
       },
       year_built: 2018,
       amenities: [
@@ -156,10 +163,12 @@ const samplePropertyData = {
       ],
       price: {
         list_price: 695000,
+        lease_price: null,
       },
       commission_type: 'percentage',
       commission: {
         percentage: 2.25,
+        flat_fee: null,
       },
       commission_description: 'Buyer’s agent commission is 2.25%.',
       images: [
@@ -198,6 +207,7 @@ const samplePropertyData = {
       lot_size_units: 'acres',
       lot_size: {
         acre: 1.2,
+        square_feet: null,
       },
       year_built: 2015,
       amenities: [
@@ -211,10 +221,12 @@ const samplePropertyData = {
       ],
       price: {
         list_price: 3250000,
+        lease_price: null,
       },
       commission_type: 'fixed',
       commission: {
-        fixed: 50000,
+        flat_rate: 50000,
+        percentage: null,
       },
       commission_description: 'Flat commission of $50,000 to buyer’s agent.',
       images: [
@@ -253,15 +265,18 @@ const samplePropertyData = {
       lot_size_units: 'square_feet',
       lot_size: {
         square_feet: 3000,
+        acre: null,
       },
       year_built: 2000,
       amenities: ['Pool', 'Gated Community', 'Gym', 'Balcony'],
       price: {
         list_price: 425000,
+        lease_price: null,
       },
       commission_type: 'percentage',
       commission: {
         percentage: 2.5,
+        flat_fee: null,
       },
       commission_description: '2.5% commission to buyer’s agent.',
       images: [

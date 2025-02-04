@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Property {
+  id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug                   String   @unique(map: "property_slug_idx")
+  headline               String
+  type                   String
+  mls_id                 String?
+  status                 String
+  listing_date           DateTime @default(now())
+  description            String
+  price                  Json
+  location               Json
+  beds                   Int
+  baths                  Decimal  @db.Decimal(6, 2)
+  square_feet            Int
+  lot_size_units         String
+  lot_size               Json
+  year_built             Int
+  amenities              String[]
+  commission_type        String?
+  commission             Json?
+  commission_description String?
+  images                 String[]
+  is_featured            Boolean  @default(false)
+  listing_agent          String
+  created_at             DateTime @default(now()) @db.Timestamp(6)
+  updated_at             DateTime @updatedAt
+}

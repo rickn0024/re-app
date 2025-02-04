@@ -18,3 +18,17 @@ export async function getLatestProperties() {
     throw new Error('Failed to fetch properties');
   }
 }
+
+// Fetch a property by its slug from the database
+export async function getPropertyBySlug(slug: string) {
+  try {
+    const data = await prisma.property.findFirst({
+      where: { slug },
+    });
+
+    return convertToPlainObject(data);
+  } catch (error) {
+    console.error('Error fetching property:', error);
+    throw new Error('Failed to fetch property');
+  }
+}

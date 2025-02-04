@@ -36,7 +36,10 @@ export default function PropertyCard({ property }: { property: Property }) {
         <CardContent className="p-0">
           <div className="flex flex-col gap-2 p-3 w-full">
             <h2 className="font-bold text-xl">
-              ${property.price?.list_price?.toLocaleString()}
+              $
+              {property.price?.list_price
+                ? property.price?.list_price?.toLocaleString()
+                : property.price?.lease_price?.toLocaleString()}
             </h2>
             <h2 className="flex gap-4 items-center text-sm text-gray-500">
               <MapPin className="h-6 w-6 text-gray-500" />

@@ -1,5 +1,6 @@
 import Footer from '@/components/footer';
 import Header from '@/components/shared/header';
+import 'photoswipe/dist/photoswipe.css';
 
 export default function RootLayout({
   children,

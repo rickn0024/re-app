@@ -12,6 +12,7 @@ import {
   XIcon,
 } from 'lucide-react';
 import { getPropertyBySlug } from '@/lib/actions/property.actions';
+import PropertyMap from './property-map';
 
 interface PropertyDetailsProps {
   slug: string;
@@ -91,33 +92,33 @@ export default async function PropertyDetails({ slug }: PropertyDetailsProps) {
         </div>
       </div>
 
-      <div className="p-6 rounded-lg dark:bg-muted">
+      <div className="p-6 rounded-lg">
         <h3 className="text-lg font-bold mb-6">Description & Details</h3>
         <h2 className="text-3xl font-bold mb-4">{property?.headline}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 p-2">
+          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 dark:bg-muted p-2">
             <HomeIcon className="w-5 h-5" />
             {property?.type}
           </div>
-          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 p-2">
+          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 dark:bg-muted p-2">
             <Drill className="w-5 h-5" />
             Built in {property?.year_built}
           </div>
-          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 p-2">
+          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 dark:bg-muted p-2">
             <LandPlotIcon className="w-5 h-5" />
             {getLotDisplay()}
           </div>
-          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 p-2">
+          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 dark:bg-muted p-2">
             <Calendar className="w-5 h-5" />
             {property?.listing_date}
           </div>
-          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 p-2">
+          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 dark:bg-muted p-2">
             <MapIcon className="w-5 h-5" />
             {property?.location?.neighborhood
               ? property?.location?.neighborhood
               : 'No neighborhood provided'}
           </div>
-          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 p-2">
+          <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 dark:bg-muted p-2">
             <Hash className="w-5 h-5" />
             {property?.mls_id ? property?.mls_id : 'Off-Market Listing'}
           </div>
@@ -129,7 +130,7 @@ export default async function PropertyDetails({ slug }: PropertyDetailsProps) {
         </p>
       </div>
 
-      <div className="p-6 rounded-lg dark:bg-muted">
+      <div className="p-6">
         <h3 className="text-lg font-bold mb-4">Amenities</h3>
 
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 list-none">
@@ -142,7 +143,7 @@ export default async function PropertyDetails({ slug }: PropertyDetailsProps) {
       </div>
       {property?.commission && (
         <div>
-          <h3 className="text-lg font-bold my-6 bg-gray-800 text-white p-2 dark:bg-black rounded-lg">
+          <h3 className="text-lg font-bold my-6 px-8 bg-gray-800 text-white p-2 dark:bg-black rounded-lg dark:bg-muted">
             Offered Compensation
           </h3>
           <div className="flex flex-col md:flex-row justify-around">
@@ -170,13 +171,16 @@ export default async function PropertyDetails({ slug }: PropertyDetailsProps) {
           </div>
         </div>
       )}
-      {/* <div className="p-6 rounded-lg shadow-md mt-6 bg-gray-100 dark:bg-muted">
-        {property?.location?.coordinates ? (
-          <PropertyMap property={property} />
-        ) : (
-          'GPS Coordinates not found'
-        )}
-      </div> */}
+      <div className="mt-8">
+        <h2 className="h3-bold py-4">Property Map</h2>
+        <div className="p-6 rounded-lg bg-gray-100 dark:bg-muted">
+          {property?.location?.coordinates ? (
+            <PropertyMap coordinates={property.location.coordinates} />
+          ) : (
+            'GPS Coordinates not found'
+          )}
+        </div>
+      </div>
     </main>
   );
 }

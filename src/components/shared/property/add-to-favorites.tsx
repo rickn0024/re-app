@@ -46,7 +46,7 @@ export default function AddToFavorites({
           <ToastAction
             className="bg-primary text-white hover:bg-gray-800"
             altText="Go to Favorites"
-            onClick={() => router.push('/favorites')}
+            onClick={() => router.push('/user/favorites')}
           >
             View Favorites
           </ToastAction>

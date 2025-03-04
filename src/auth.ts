@@ -5,8 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { compareSync } from 'bcrypt-ts-edge';
 import type { NextAuthConfig, Session, User } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
-import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const config = {
   pages: {
@@ -89,7 +88,28 @@ export const config = {
       }
       return token;
     },
-    authorized({ request, auth }: any) {
+    authorized({
+      request,
+      auth,
+    }: {
+      request: NextRequest;
+      auth: Session | null;
+    }) {
+      // Array of regex patterns to check the request path against
+      const protectedPaths = [
+        /\/profile/,
+        /\/user\/(.*)/,
+        /\/admin\/(.*)/,
+        /\/agent\/(.*)/,
+      ];
+
+      // Get the pathname from the request URL obj
+      const { pathname } = request.nextUrl;
+
+      // Check if user is authenticated and accessing a protected path
+      if (!auth?.user && protectedPaths.some(path => path.test(pathname)))
+        return false;
+
       // Check for session favorites cookie
       if (!request.cookies.get('sessionFavoritesId')) {
         // generate a new session favorites id

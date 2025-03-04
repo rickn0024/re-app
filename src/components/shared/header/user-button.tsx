@@ -51,7 +51,7 @@ export default async function UserButton() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link href="/favorites" className="flex items-center gap-2">
+            <Link href="/user/favorites" className="flex items-center gap-2">
               <Heart /> Favorites
             </Link>
           </DropdownMenuItem>

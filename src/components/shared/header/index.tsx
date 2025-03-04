@@ -17,7 +17,7 @@ export default function Header() {
               height={43}
               priority={true}
             />
-            <span className="text-xs">
+            <span className="text-xs -ml-1">
               <span className="sr-only">{APP_NAME} </span>
               <em>{APP_LOCATION}</em>
             </span>

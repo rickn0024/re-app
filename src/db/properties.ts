@@ -1,4 +1,36 @@
+import { hashSync } from 'bcrypt-ts-edge';
+
 const samplePropertyData = {
+  users: [
+    {
+      id: 'b8413b01-e7cb-4649-99bb-ef58bf251bae', // Add this to match the agent's userId
+      name: 'Dick Alan',
+      email: 'admin@example.com',
+      password: hashSync('123456', 10),
+    },
+    {
+      id: 'd2a4aaff-5643-48e8-b2de-69e2bfa2f818',
+      name: 'Rick',
+      email: 'agent@example.com',
+      password: hashSync('123456', 10),
+    },
+    {
+      id: 'e7a81344-5f4a-4b3e-9c0b-6c2c5e74d2f7',
+      name: 'John',
+      email: 'user@example.com',
+      password: hashSync('123456', 10),
+    },
+  ],
+  agents: [
+    {
+      userId: 'd2a4aaff-5643-48e8-b2de-69e2bfa2f818', // Now this matches an existing user
+      title: 'Realtor',
+      mlsId: 'SR123456',
+      stateLic: 'CA',
+      stateLicNum: '123456789',
+      bio: 'I am a licensed real estate agent in the state of California. I specialize in residential properties and have been in the industry for over 10 years.',
+    },
+  ],
   properties: [
     {
       listing_agent: '1',

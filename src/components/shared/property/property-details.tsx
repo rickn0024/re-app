@@ -13,13 +13,17 @@ import {
 } from 'lucide-react';
 import { getPropertyBySlug } from '@/lib/actions/property.actions';
 import PropertyMap from './property-map';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
+dayjs.extend(relativeTime);
 interface PropertyDetailsProps {
   slug: string;
 }
 
 export default async function PropertyDetails({ slug }: PropertyDetailsProps) {
   const property = await getPropertyBySlug(slug);
+  const listingDate = dayjs(property?.listing_date);
 
   function getCommissionDisplay() {
     if (property?.commission.percentage) {
@@ -110,7 +114,7 @@ export default async function PropertyDetails({ slug }: PropertyDetailsProps) {
           </div>
           <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 dark:bg-muted p-2">
             <Calendar className="w-5 h-5" />
-            {property?.listing_date}
+            {listingDate.fromNow()}
           </div>
           <div className="flex gap-2 items-center justify-center rounded-lg bg-gray-100 dark:bg-muted p-2">
             <MapIcon className="w-5 h-5" />

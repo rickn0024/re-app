@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
@@ -24,20 +18,131 @@ model Property {
   status                 String
   listing_date           DateTime @default(now())
   description            String
-  price                  Json
-  location               Json
+  price                  Json     @db.Json
+  location               Json     @db.Json
   beds                   Int
   baths                  Decimal  @db.Decimal(6, 2)
   square_feet            Int
   lot_size_units         String
-  lot_size               Json
+  lot_size               Json     @db.Json
   year_built             Int
   amenities              String[]
   commission_type        String?
-  commission             Json?
+  commission             Json?    @db.Json
   commission_description String?
   images                 String[]
   is_featured            Boolean  @default(false)
   created_at             DateTime @default(now()) @db.Timestamp(6)
   updated_at             DateTime @updatedAt
+
+  // Relationships
+  agentProfileId String?       @db.Uuid // Ensure this matches `AgentProfile.id`
+  AgentProfile   AgentProfile? @relation(fields: [agentProfileId], references: [id])
+}
+
+// User Model
+model User {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String    @default("NO_NAME")
+  email         String    @unique(map: "user_email_idx")
+  emailVerified DateTime? @db.Timestamp(6)
+  password      String?
+  role          String    @default("user") // "user", "agent", "admin"
+  image         String?
+  address       Json?     @db.Json
+  createdAt     DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime  @updatedAt @db.Timestamp(6)
+
+  // Relationships
+  agentProfile AgentProfile? // Only for agents
+  account      Account[]
+  session      Session[]
+  favorites    Favorites[]
+}
+
+model Account {
+  userId            String  @db.Uuid
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  session_token String   @id
+  userId        String   @db.Uuid
+  expires       DateTime
+
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// Agent Profile Model
+model AgentProfile {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String  @unique(map: "agent_profile_userId_idx") @db.Uuid
+  title       String?
+  mlsId       String?
+  stateLic    String?
+  stateLicNum String?
+  bio         String?
+  meetingLink String?
+  isFeatured  Boolean @default(false)
+
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relationships
+  Properties Property[]
+}
+
+model Favorites {
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId             String?  @db.Uuid
+  sessionFavoritesId String
+  createdAt          DateTime @default(now()) @db.Timestamp(6)
+
+  user               User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favoriteProperties FavoriteProperty[] // Add this
+}
+
+model FavoriteProperty {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  propertyId  String
+  slug        String
+  headline    String
+  image       String
+  type        String
+  price       Json      @db.Json
+  beds        Int
+  baths       String
+  square_feet Int
+  address     Json      @db.Json
+  favoritesId String    @db.Uuid
+  favorites   Favorites @relation(fields: [favoritesId], references: [id], onDelete: Cascade)
 }

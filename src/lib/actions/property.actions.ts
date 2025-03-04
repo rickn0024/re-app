@@ -32,3 +32,5 @@ export async function getPropertyBySlug(slug: string) {
     throw new Error('Failed to fetch property');
   }
 }
+
+// Fecth a user's favorite properties from the database

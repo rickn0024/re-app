@@ -9,19 +9,20 @@ const decimalNumbers = z
     'Must have exactly 2 decimal places',
   );
 
-// Location schema
+// Coordinates schema
 const CoordinatesSchema = z.object({
   latitude: z.number(),
   longitude: z.number(),
 });
 
+// Location schema
 const LocationSchema = z.object({
   street: z.string(),
   city: z.string(),
   state: z.string(),
   zipcode: z.string(),
-  neighborhood: z.string(),
-  coordinates: CoordinatesSchema,
+  neighborhood: z.string().optional(),
+  coordinates: CoordinatesSchema.optional(),
 });
 
 // Lot size schema
@@ -66,4 +67,57 @@ export const insertPropertySchema = z.object({
   commission_description: z.string().nullable(),
   images: z.array(z.string()),
   is_featured: z.boolean(),
+});
+
+// Schema for sign in
+export const signInFormSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
+});
+
+// Schema for sign up
+export const signUpFormSchema = z
+  .object({
+    name: z.string().min(3, 'Name must be at least 3 characters long'),
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    confirmPassword: z
+      .string()
+      .min(6, 'Confirm password must be at least 6 characters long'),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
+
+// Schema for updating user profile
+export const updateProfileSchema = z.object({
+  name: z.string().min(3, 'Name must be at least 3 characters long'),
+  email: z.string().email('Invalid email address'),
+});
+
+// Schema to update users
+export const updateUserSchema = updateProfileSchema.extend({
+  id: z.string().min(1, 'ID is required'),
+  role: z.string().min(1, 'Role is required'),
+});
+
+// Favorite property schema
+export const FavoritePropertySchema = z.object({
+  propertyId: z.string().min(1, 'Property is required'),
+  slug: z.string().min(1, 'Slug is required'),
+  headline: z.string().min(1, 'Headline is required'),
+  image: z.string().min(1, 'Image is required'),
+  type: z.string(),
+  price: PriceSchema,
+  beds: z.number().min(1, 'Beds is required'),
+  baths: decimalNumbers,
+  square_feet: z.number().min(1, 'Square feet is required'),
+  address: LocationSchema,
+});
+
+export const insertFavoriteSchema = z.object({
+  properties: z.array(FavoritePropertySchema),
+  sessionFavoritesId: z.string().min(1, 'Session cart ID is required'),
+  userId: z.string().optional().nullable(),
 });

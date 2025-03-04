@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { BedDouble, BathIcon, MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Property } from '@/types';
-import AddToFavorites from './add-to-favorites';
+import { FavoriteProperty } from '@/types';
+import AddToFavorites from '../add-to-favorites';
 import { getMyFavorites } from '@/lib/actions/favorites.actions';
 
-export default async function PropertyCard({
+export default async function FavoritesCard({
   property,
 }: {
-  property: Property;
+  property: FavoriteProperty; // Accept a single FavoriteProperty object
 }) {
   if (property.type === 'Single Family Residence') {
     property.type = 'SFR';
@@ -47,7 +47,7 @@ export default async function PropertyCard({
       <CardHeader className="relative p-0">
         <Link href={`/property/${property.slug}`}>
           <Image
-            src={property.images[0]}
+            src={property.image}
             alt={property.headline}
             width={800}
             height={300}
@@ -65,18 +65,7 @@ export default async function PropertyCard({
         </Badge>
         <AddToFavorites
           favorites={transformedFavorites}
-          property={{
-            propertyId: property.id,
-            slug: property.slug,
-            type: property.type,
-            headline: property.headline,
-            price: property.price,
-            beds: property.beds,
-            baths: property.baths,
-            square_feet: property.square_feet,
-            address: property.location,
-            image: property.images![0],
-          }}
+          property={property as unknown as FavoriteProperty}
         />
       </CardHeader>
       <Link href={`/property/${property.slug}`}>
@@ -90,8 +79,8 @@ export default async function PropertyCard({
             </h2>
             <h2 className="flex gap-4 items-center text-sm text-gray-500 dark:text-gray-400">
               <MapPin className="h-6 w-6 text-gray-500" />
-              {property.location?.street}, {property.location?.city},{' '}
-              {property.location?.state} {property.location?.zipcode}
+              {property.address?.street}, {property.address?.city},{' '}
+              {property.address?.state} {property.address?.zipcode}
             </h2>
             <div className="flex gap-2 mt-2 justify-between">
               <h2 className="flex gap-2 w-full items-center bg-slate-100 text-gray-500 rounded-md p-2 justify-center dark:bg-background">

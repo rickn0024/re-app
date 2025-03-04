@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { EllipsisVertical, UserIcon } from 'lucide-react';
+import { EllipsisVertical } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import LightDarkToggle from './light-dark-toggle';
@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import UserButton from './user-button';
 
 const menuItems = [
   { name: 'Home', href: '/' },
@@ -30,14 +31,7 @@ export default function Menu() {
           </Button>
         ))}
         <LightDarkToggle />
-        <Button asChild variant="ghost">
-          <Link href="/login">
-            <UserIcon /> Login
-          </Link>
-        </Button>
-        <Button asChild variant="default">
-          <Link href="/register">Register</Link>
-        </Button>
+        <UserButton />
       </nav>
       <nav className="lg:hidden">
         <Sheet>
@@ -57,14 +51,8 @@ export default function Menu() {
                 <Link href={item.href}>{item.name}</Link>
               </Button>
             ))}
-            <Button asChild variant="ghost" className="w-full">
-              <Link href="/login">
-                <UserIcon /> Login
-              </Link>
-            </Button>
-            <Button asChild variant="default" className="w-full">
-              <Link href="/register">Register</Link>
-            </Button>
+
+            <UserButton />
             <SheetDescription></SheetDescription>
           </SheetContent>
         </Sheet>

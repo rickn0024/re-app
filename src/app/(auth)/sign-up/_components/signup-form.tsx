@@ -8,10 +8,10 @@ import Link from 'next/link';
 import { useFormStatus } from 'react-dom';
 import { Loader } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { signUpUser } from '@/lib/actions/users.actions';
+import { signInWithCredentials } from '@/lib/actions/users.actions';
 
 export default function SignUpForm() {
-  const [data, action] = useActionState(signUpUser, {
+  const [data, action] = useActionState(signInWithCredentials, {
     success: false,
     message: '',
   });
